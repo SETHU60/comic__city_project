@@ -1,6 +1,7 @@
 package za.ac.cput.util;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Helper {
@@ -9,6 +10,12 @@ public class Helper {
             return true;
         }
         return false;
+    }
+    public static boolean arrayListNullorEmpty(List list){
+        if(list.isEmpty() || list == null){
+            return true;
+        }
+        return  false;
     }
 
     public static boolean isNumber10Digits(String number){

@@ -11,10 +11,14 @@ import za.ac.cput.util.Helper;
 public class AuthorFactory {
     public static Author buildAuthor(long authorID, String firstName, String middleName , String lastName){
 
-        Name name =  null;
+
         if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName)){
             return null;
         }
+        Name name = new Name.NameBuilder().setFirstName(firstName)
+                .setLastName(lastName)
+                .setMiddleName(middleName)
+                .build();
 
         return new Author.AuthorBuilder().setAuthorID(authorID)
                 .setName(name)

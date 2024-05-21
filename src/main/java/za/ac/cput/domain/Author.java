@@ -3,11 +3,22 @@ package za.ac.cput.domain;
 // 221164014
 // https://github.com/Skiet88/comic__city_project
 
-import java.util.Objects;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+@Entity
 public class Author {
+    @Id
     private long authorID;
+    @OneToOne(mappedBy = "author", cascade = CascadeType.ALL )
     private Name name;
+
+    @ManyToMany(mappedBy = "authors")
+    private List<ComicBook> comicBooks = new ArrayList<>();
+
 
     protected Author() {
     }

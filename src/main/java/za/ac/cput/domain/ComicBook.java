@@ -2,18 +2,29 @@ package za.ac.cput.domain;
 // Mlungisi L. Mbuyazi
 // 221164014
 // https://github.com/Skiet88/comic__city_project
-import java.time.LocalDate;
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.*;
+
+@Entity
 public class ComicBook {
+    @Id
     private String SKU;
     private String name;
     private double wieght;
     private LocalDate releaseDate;
-    private Author author;
+
+    @ManyToMany
+    @JoinTable(
+            name = "author_comicbook",
+            joinColumns = @JoinColumn(name = "comicbook_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private List<Author> authors = new ArrayList<>();
     private double price;
 
-    private ComicBook() {
+    protected ComicBook() {
     }
 
 
@@ -22,9 +33,11 @@ public class ComicBook {
         this.name = e.name;
         this.wieght = e.wieght;
         this.releaseDate = e.releaseDate;
-        this.author = e.author;
+        this.authors = e.authors;
         this.price = e.price;
     }
+
+
 
     public String getSKU() {
         return SKU;
@@ -42,8 +55,8 @@ public class ComicBook {
         return releaseDate;
     }
 
-    public Author getAuthor() {
-        return author;
+    public List getAuthor() {
+        return authors;
     }
 
     public double getPrice() {
@@ -55,12 +68,12 @@ public class ComicBook {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ComicBook comicBook = (ComicBook) o;
-        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(author, comicBook.author);
+        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(SKU, name, wieght, releaseDate, author, price);
+        return Objects.hash(SKU, name, wieght, releaseDate, authors, price);
     }
 
     @Override
@@ -70,7 +83,7 @@ public class ComicBook {
                 ", name='" + name + '\'' +
                 ", wieght=" + wieght +
                 ", releaseDate=" + releaseDate +
-                ", author=" + author +
+                ", authors=" + authors +
                 ", price=" + price +
                 '}';
     }
@@ -80,7 +93,7 @@ public class ComicBook {
         private String name;
         private double wieght;
         private LocalDate releaseDate;
-        private Author author;
+        private List<Author> authors;
         private double price;
 
         public ComicBookBuilder() {
@@ -106,8 +119,8 @@ public class ComicBook {
             return this;
         }
 
-        public ComicBookBuilder setAuthor(Author author) {
-            this.author = author;
+        public ComicBookBuilder setAuthor(List<Author> authors) {
+            this.authors = authors;
             return this;
         }
 
@@ -120,7 +133,7 @@ public class ComicBook {
             this.name = e.name;
             this.wieght = e.wieght;
             this.releaseDate = e.releaseDate;
-            this.author = e.author;
+            this.authors = e.authors;
             this.price = e.price;
 
             return this;
